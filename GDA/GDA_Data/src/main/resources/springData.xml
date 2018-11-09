@@ -26,11 +26,11 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="persistenceUnitName" 
 				  value="GDA_Data" />
-		<property name="jpaProperties">
-			<props>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
-			</props>
-		</property>
+<!-- 		<property name="jpaProperties"> -->
+<!-- 			<props> -->
+<!-- 				<prop key="hibernate.hbm2ddl.auto">create</prop> -->
+<!-- 			</props> -->
+<!-- 		</property> -->
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="databasePlatform" 

@@ -15,6 +15,7 @@ import org.primefaces.model.DualListModel;
 import fr.afcepf.al32.entity.Pack;
 import fr.afcepf.al32.entity.PackAssociation;
 import fr.afcepf.al32.entity.Produit;
+import fr.afcepf.al32.entity.TypeProduit;
 import fr.afcepf.al32.service.IServicePack;
 import fr.afcepf.al32.service.IServiceProduit;
 import fr.afcepf.al32.service.IServiceTypeProduit;
@@ -59,9 +60,14 @@ public class AccueilAssociationBean implements Serializable {
 	}
 	
 	public void creerPack(ActionEvent e) {
-		Pack pack = new PackAssociation(libellePack, prixPack);
-		pack.setProduits(produitsPack);
-		pack.setTypeProduit(serviceTypeProduit.rechercherTypeProduit(idTypeProduit));
+		prixPack = 0.0;
+		for (Produit produit : produitsPack) {
+			prixPack += produit.getPrix();
+		}
+		TypeProduit typeProduit = serviceTypeProduit.rechercherTypeProduit(idTypeProduit);
+		produitsPack = produits.getTarget();
+		
+		Pack pack = new PackAssociation(libellePack, prixPack, typeProduit,	produitsPack);
 		
 		servicePack.ajouterPack(pack);
 	}

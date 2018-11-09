@@ -3,6 +3,7 @@ package fr.afcepf.al32.web;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import fr.afcepf.al32.entity.Administrateur;
 import fr.afcepf.al32.entity.Association;
@@ -27,6 +28,7 @@ public class ConnexionBean
 	
 	public String login()
 	{
+		FacesContext context = FacesContext.getCurrentInstance();
 		Personne p = serviceAdministrateur.rechercherParConnexion(login, password);
 		String suite = null;
 		if(p != null)
@@ -36,6 +38,7 @@ public class ConnexionBean
 			if(p instanceof Donateur)
 			{
 				utilisateur = (Donateur) p;
+				context.getExternalContext().getSessionMap().put("user", utilisateur);
 				suite="accueilDonateur";
 				
 				if(redirectionHistorique)
@@ -48,11 +51,13 @@ public class ConnexionBean
 			else if(p instanceof Association)
 			{
 				utilisateur = (Association) p;
+				context.getExternalContext().getSessionMap().put("user", utilisateur);
 				suite="accueilAssociation";
 			}
 			else
 			{
 				utilisateur = (Administrateur) p;
+				context.getExternalContext().getSessionMap().put("user", utilisateur);
 				suite="accueilAdmin";
 			}
 

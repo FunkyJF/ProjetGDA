@@ -1,6 +1,5 @@
 package fr.afcepf.al32.web;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,10 +7,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
-import fr.afcepf.al32.entity.Pack;
 import fr.afcepf.al32.entity.PackAssociation;
-import fr.afcepf.al32.service.IServiceAdministrateur;
+import fr.afcepf.al32.entity.Personne;
 import fr.afcepf.al32.service.IServicePack;
 
 
@@ -19,29 +18,18 @@ import fr.afcepf.al32.service.IServicePack;
 @RequestScoped 
 public class ListePacksAssociationBean {
 	
+	private Personne utilisateur = (Personne) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+	
 	@ManagedProperty(value ="#{servicePackImpl}") //#{nomComposantJsfOuSpring} //nomClasseJava avec minuscule au debut
 	private IServicePack servicePack;
 	private List<PackAssociation> packs;
-
-	 
-
-	//la personne connectée
-	private ConnexionBean personne;
-	
-	
-	
-//	@PostConstruct
-//	public void Init()
-//	{
-//		
-//	}
 	
 	@PostConstruct
 	public void init()
 	{		
 		//System.out.println("Id asso connecte :" + selectedPack.getId());
 		//packs = servicePack.rechercherPackAssociationParAssociation(selectedPack.getId());
-		packs = servicePack.rechercherPackAssociationParAssociation(10L);
+		packs = servicePack.rechercherPackAssociationParAssociation(utilisateur.getId());
 		
 		System.out.println("taille packs: " + packs.size());
 		System.out.println("contenue: " + packs.toString());
@@ -52,6 +40,14 @@ public class ListePacksAssociationBean {
 		String suite=null;	
 		servicePack.desactiverPack(13L);
 		return suite;
+	}
+
+	public Personne getUtilisateur() {
+		return utilisateur;
+	}
+
+	public void setUtilisateur(Personne utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 
 	public IServicePack getServicePack() {
@@ -75,19 +71,6 @@ public class ListePacksAssociationBean {
 	public void setPacks(List<PackAssociation> packs) {
 		this.packs = packs;
 	}
-
-
-	public ConnexionBean getPersonne() {
-		return personne;
-	}
-
-	public void setPersonne(ConnexionBean personne) {
-		this.personne = personne;
-	}
-
-
-
-
 
 }
 

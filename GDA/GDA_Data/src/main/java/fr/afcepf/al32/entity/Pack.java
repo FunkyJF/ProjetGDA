@@ -62,7 +62,7 @@ public abstract class Pack
 	private TypeProduit typeProduit;
 	
 	@ManyToMany(cascade = { 
-	        CascadeType.PERSIST, 
+//	        CascadeType.PERSIST, 
 	        CascadeType.MERGE
 	    })
 	@JoinTable(name="Pack_Produit",
